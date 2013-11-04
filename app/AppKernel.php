@@ -16,13 +16,36 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
+            new Sonata\NotificationBundle\SonataNotificationBundle(),
+            new Bangpound\PhirehoseBundle\BangpoundPhirehoseBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Sonata\BlockBundle\SonataBlockBundle(),
+            new Sonata\jQueryBundle\SonatajQueryBundle(),
+            new Sonata\AdminBundle\SonataAdminBundle(),
+            new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
+            new Sonata\UserBundle\SonataUserBundle('FOSUserBundle'),
+            new Application\Sonata\UserBundle\ApplicationSonataUserBundle(),
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new Bangpound\Bundle\TwitterStreamingBundle\BangpoundTwitterStreamingBundle(),
+            new Doctrine\Bundle\CouchDBBundle\DoctrineCouchDBBundle(),
+            new Liip\MonitorBundle\LiipMonitorBundle(),
+            new Bangpound\Atom\DataBundle\BangpoundAtomDataBundle(),
+            new Bangpound\Bundle\ElasticsearchBundle\BangpoundElasticsearchBundle(),
+            new Sputnik\Bundle\PubsubBundle\SputnikPubsubBundle(),
+            new Bangpound\Bundle\PubsubBundle\BangpoundPubsubBundle(),
+            new Bangpound\Bundle\CastleBundle\BangpoundCastleBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
-            $bundles[] = new Acme\DemoBundle\AcmeDemoBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
+            $bundles[] = new Elao\WebProfilerExtraBundle\WebProfilerExtraBundle();
+            $bundles[] = new CoreSphere\ConsoleBundle\CoreSphereConsoleBundle();
+            $bundles[] = new RaulFraile\Bundle\LadybugBundle\RaulFraileLadybugBundle();
+            $bundles[] = new Jns\Bundle\XhprofBundle\JnsXhprofBundle();
         }
 
         return $bundles;
