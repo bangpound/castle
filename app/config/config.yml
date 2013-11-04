@@ -1,10 +1,11 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
+    - { resource: elasticsearch.yml }
 
 framework:
     #esi:             ~
-    #translator:      { fallback: %locale% }
+    translator:      { fallback: %locale% }
     secret:          %secret%
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -53,9 +54,24 @@ doctrine:
         # e.g. database_path: %kernel.root_dir%/data/data.db3
         # path:     %database_path%
 
+        types:
+            json:       Bangpound\Bundle\TwitterStreamingBundle\Types\JsonType
+            Geometry:   CrEOF\Spatial\DBAL\Types\GeometryType
+            Point:      CrEOF\Spatial\DBAL\Types\Geometry\PointType
+            Polygon:    CrEOF\Spatial\DBAL\Types\Geometry\PolygonType
+            LineString: CrEOF\Spatial\DBAL\Types\Geometry\LineStringType
+        mapping_types:
+            enum:                 string
+            polygon: Polygon
+            point: Point
+
     orm:
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true
+        mappings:
+            ApplicationSonataUserBundle: ~
+            SonataUserBundle: ~
+
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -64,3 +80,84 @@ swiftmailer:
     username:  %mailer_user%
     password:  %mailer_password%
     spool:     { type: memory }
+
+sonata_notification:
+    backend: sonata.notification.backend.rabbitmq
+    queues:
+        - { queue: twitter_stream, recover: true, routing_key: twitter_data.tweet }
+        - { queue: pubsub, recover: true, routing_key: pubsub_notification }
+        - { queue: catchall, default: true }
+    backends:
+        rabbitmq:
+            exchange: amq.direct
+            connection:
+                host:     %rabbitmq_host%
+                user:     %rabbitmq_user%
+                pass:     %rabbitmq_pass%
+                port:     %rabbitmq_port%
+                vhost:    %rabbitmq_vhost%
+
+sonata_block:
+    default_contexts: [cms]
+    blocks:
+        sonata.admin.block.admin_list:
+            contexts:   [admin]
+
+        sonata.block.service.text:
+        sonata.block.service.rss:
+
+sonata_doctrine_orm_admin:
+    # default value is null, so doctrine uses the value defined in the configuration
+    entity_manager: ~
+
+sonata_admin:
+    title:      kal3a
+    title_logo: /images/logo_title.png
+    dashboard:
+        blocks:
+            # display a dashboard block
+            - { position: left, type: sonata.admin.block.admin_list }
+#            - { position: right, type: sonata.admin_doctrine_orm.block.audit }
+            - { position: center, type: sonata.block.service.text, settings: { content: "<h2>Welcome!</h2> You can customize this dashboard by editing the sonata_admin.yml file. The current dashboard presents the recent items from the NewsBundle and a timeline with the latest action"} }
+            - { position: right, type: sonata.block.service.text, settings: { content: "<h2>Welcome!</h2> You can customize this dashboard by editing the sonata_admin.yml file. The current dashboard presents the recent items from the NewsBundle and a timeline with the latest action"} }
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    user_class: Application\Sonata\UserBundle\Entity\User
+    group:
+        group_class: Application\Sonata\UserBundle\Entity\Group
+
+sonata_user:
+    security_acl: true
+    manager_type: orm # can be orm or mongodb
+
+sensio_framework_extra:
+    router:  { annotations: true }
+    request: { converters: true }
+    view:    { annotations: false }
+    cache:   { annotations: true }
+
+# Doctrine CouchDB Configuration
+doctrine_couch_db:
+    client:
+        dbname: %doctrine_couch_db.default.dbname%
+        user: %doctrine_couch_db.default.user%
+        password: %doctrine_couch_db.default.password%
+    odm:
+        auto_mapping: true
+
+# Liip monitor
+liip_monitor:
+    checks:
+        php_extensions: [ intl, mcrypt, twig, curl ]
+#        process_active: "sonata:notification:start --type=pubsub_notification"
+#        process_active: "sonata:notification:start --type=twitter_data.tweet"
+        writable_directory:
+            - %kernel.cache_dir%
+            - %kernel.logs_dir%
+        doctrine_dbal:            default
+        deps_entries:             ~
+        symfony_version_check:    ~
+        security_advisory:
+            lock_file:            %kernel.root_dir%/../composer.lock
