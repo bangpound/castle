@@ -1,11 +1,29 @@
 {
-    "name": "symfony/framework-standard-edition",
+    "name": "bangpound/castle",
     "license": "MIT",
     "type": "project",
-    "description": "The \"Symfony Standard Edition\" distribution",
+    "description": "Aggregation and collection engine.",
     "autoload": {
         "psr-0": { "": "src/" }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/bangpound/SonataDoctrineORMAdminBundle.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/bangpound/SonataNotificationBundle.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/bangpound/php-activitystreams.git"
+        },
+        {
+            "type": "composer",
+            "url": "http://bangpound.github.io/satis-repository"
+        }
+    ],
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "~2.4",
@@ -18,7 +36,36 @@
         "sensio/distribution-bundle": "~2.3",
         "sensio/framework-extra-bundle": "~2.3",
         "sensio/generator-bundle": "~2.3",
-        "incenteev/composer-parameter-handler": "~2.0"
+        "incenteev/composer-parameter-handler": "~2.0",
+        "jms/serializer-bundle": "dev-master",
+        "sonata-project/doctrine-orm-admin-bundle": "dev-patch-1",
+        "sonata-project/user-bundle": "dev-master",
+        "sonata-project/notification-bundle": "dev-patch-1",
+        "doctrine/couchdb": "dev-master",
+        "doctrine/couchdb-odm": "dev-master",
+        "doctrine/couchdb-odm-bundle": "dev-master",
+        "robotsnowfall/enum": "dev-master",
+        "mjohnson/decoda": "~6.2.3",
+        "ddeboer/data-import-bundle": "dev-master",
+        "liip/monitor-bundle": "dev-master",
+        "bangpound/elasticsearch-bundle": "dev-master",
+        "bangpound/atom-data-bundle": "dev-master",
+        "bangpound/twitter-streaming-bundle": "dev-master",
+        "bangpound/pubsub-bundle": "dev-master",
+        "bangpound/castle-bundle": "dev-master",
+        "creof/doctrine2-spatial": "dev-master",
+        "phayes/geophp": "dev-master",
+        "videlalvaro/php-amqplib": "2.0.*",
+        "sensiolabs/security-checker": "~1.2",
+        "activitystreams/activitystreams": "dev-patch-1",
+        "nojimage/twitter-text-php": "dev-master"
+    },
+    "require-dev": {
+        "raulfraile/ladybug-bundle": "~1.0.2",
+        "elao/web-profiler-extra-bundle" : "dev-master",
+        "coresphere/console-bundle": "dev-master",
+        "jns/xhprof-bundle": "dev-master",
+        "jms/debugging-bundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
@@ -26,20 +73,22 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Liip\\MonitorBundle\\Composer\\ScriptHandler::checkHealth"
         ],
         "post-update-cmd": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Liip\\MonitorBundle\\Composer\\ScriptHandler::checkHealth"
         ]
     },
     "config": {
         "bin-dir": "bin"
     },
-    "minimum-stability": "beta",
+    "minimum-stability": "dev",
     "extra": {
         "symfony-app-dir": "app",
         "symfony-web-dir": "web",
