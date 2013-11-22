@@ -13,10 +13,6 @@
         },
         {
             "type": "vcs",
-            "url": "https://github.com/bangpound/SonataNotificationBundle.git"
-        },
-        {
-            "type": "vcs",
             "url": "https://github.com/bangpound/php-activitystreams.git"
         },
         {
@@ -40,7 +36,7 @@
         "jms/serializer-bundle": "dev-master",
         "sonata-project/doctrine-orm-admin-bundle": "dev-patch-1",
         "sonata-project/user-bundle": "dev-master",
-        "sonata-project/notification-bundle": "dev-patch-1",
+        "sonata-project/notification-bundle": "dev-master",
         "doctrine/couchdb": "dev-master",
         "doctrine/couchdb-odm": "dev-master",
         "doctrine/couchdb-odm-bundle": "dev-master",
