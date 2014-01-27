@@ -1,3 +1,4 @@
 name: Castle
 markdown: redcarpet
 pygments: true
+baseurl: http://bangpound.github.io/castle
