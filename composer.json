@@ -8,16 +8,8 @@
     },
     "repositories": [
         {
-            "type": "vcs",
-            "url": "https://github.com/bangpound/SonataDoctrineORMAdminBundle.git"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/bangpound/php-activitystreams.git"
-        },
-        {
             "type": "composer",
-            "url": "http://bangpound.github.io/satis-repository"
+            "url": "http://bangpound.github.io/packages"
         }
     ],
     "require": {
@@ -33,35 +25,38 @@
         "sensio/distribution-bundle": "~3.0,>=3.0.12",
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
-        "jms/serializer-bundle": "dev-master",
-        "sonata-project/doctrine-orm-admin-bundle": "dev-patch-1",
-        "sonata-project/user-bundle": "dev-master",
-        "sonata-project/notification-bundle": "dev-master",
-        "doctrine/couchdb": "dev-master",
-        "doctrine/couchdb-odm": "dev-master",
-        "doctrine/couchdb-odm-bundle": "dev-master",
-        "robotsnowfall/enum": "dev-master",
-        "mjohnson/decoda": "~6.2.3",
-        "ddeboer/data-import-bundle": "dev-master",
-        "liip/monitor-bundle": "dev-master",
-        "bangpound/elasticsearch-bundle": "dev-master",
-        "bangpound/atom-data-bundle": "dev-master",
-        "bangpound/twitter-streaming-bundle": "dev-master",
-        "bangpound/pubsub-bundle": "dev-master",
-        "bangpound/castle-bundle": "dev-master",
+        "bangpound/angularjs-bundle": "1.0.*@dev",
+        "bangpound/atom-data-bundle": "~1.0@dev",
+        "bangpound/castle-bundle": "~1.0",
+        "bangpound/castle-search-bundle": "1.0.*@dev",
+        "bangpound/doctrine-datetime": "~1.0@dev",
+        "bangpound/guzzle-proxy-bundle": "~1.0@dev",
+        "bangpound/pubsub-bundle": "~1.0@dev",
+        "bangpound/twitter-streaming-bundle": "~1.0@dev",
+        "caxy/elasticsearch-bundle": "~1.0@dev",
         "creof/doctrine2-spatial": "dev-master",
+        "doctrine/couchdb-odm-bundle": "dev-develop",
+        "doctrine/couchdb-odm": "dev-master",
+        "doctrine/couchdb": "dev-develop as dev-master",
+        "doctrine/doctrine-cache-bundle": "~1.0",
+        "dr-que/polynomial-regression": "~1.1.1",
+        "fennb/phirehose": "dev-master",
+        "friendsofsymfony/jsrouting-bundle": "~1.5.3",
+        "friendsofsymfony/rest-bundle": "~1.5",
+        "friendsofsymfony/user-bundle": "~2.0@dev",
+        "javiereguiluz/easyadmin-bundle": "~1.4",
+        "jms/serializer-bundle": "0.13.*@dev",
+        "liip/monitor-bundle": "~2.0.2",
+        "nelmio/cors-bundle": "~1.0",
+        "nesbot/Carbon": "~1.12",
+        "nojimage/twitter-text-php": "dev-master",
+        "oldsound/rabbitmq-bundle": "~1.6.0@dev",
         "phayes/geophp": "dev-master",
-        "videlalvaro/php-amqplib": "2.0.*",
-        "sensiolabs/security-checker": "~1.2",
-        "activitystreams/activitystreams": "dev-patch-1",
-        "nojimage/twitter-text-php": "dev-master"
+        "robotsnowfall/enum": "dev-master"
     },
     "require-dev": {
-        "raulfraile/ladybug-bundle": "~1.0.2",
-        "elao/web-profiler-extra-bundle" : "dev-master",
-        "coresphere/console-bundle": "dev-master",
-        "jns/xhprof-bundle": "dev-master",
-        "jms/debugging-bundle": "dev-master",
+        "bangpound/invoker-bundle": "~1.0@dev",
+        "react/child-process": "~0.5@dev",
         "sensio/generator-bundle": "~2.3"
     },
     "scripts": {
@@ -100,9 +95,6 @@
         "symfony-assets-install": "relative",
         "incenteev-parameters": {
             "file": "app/config/parameters.yml"
-        },
-        "branch-alias": {
-            "dev-master": "2.4-dev"
         }
     }
 }

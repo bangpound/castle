@@ -9,44 +9,17 @@ site_home:
         template: 'site_home.html.twig'
 
 _monitor:
-    resource: "@LiipMonitorBundle/Resources/config/routing.yml"
+    resource: "@LiipMonitorBundle/Resources/config/routing.xml"
     prefix: /monitor/health
 
-admin:
-    resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
-    prefix: /admin
+easy_admin_bundle:
+    resource: "@EasyAdminBundle/Controller/"
+    type:     annotation
+    prefix:   /admin
 
-_sonata_admin:
-    resource: .
-    type: sonata_admin
-    prefix: /admin
-
-sonata_user:
-    resource: '@SonataUserBundle/Resources/config/routing/admin_security.xml'
-    prefix: /admin
-
-fos_user_security:
+_fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
-
-fos_user_profile:
-    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
-    prefix: /profile
-
-fos_user_register:
-    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
-    prefix: /register
-
-fos_user_resetting:
-    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
-    prefix: /resetting
-
-fos_user_change_password:
-    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
-    prefix: /profile
-
-fos_user_group:
-    resource: "@FOSUserBundle/Resources/config/routing/group.xml"
-    prefix: /group
+    prefix:   /admin
 
 sputnik_pubsub_hub:
     resource: "@SputnikPubsubBundle/Resources/config/routing/hub.xml"
@@ -55,3 +28,6 @@ sputnik_pubsub_hub:
 sputnik_pubsub_callback:
     resource: "@SputnikPubsubBundle/Resources/config/routing/callback.xml"
     prefix:   /push
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

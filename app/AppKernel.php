@@ -16,26 +16,29 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
-            new Sonata\NotificationBundle\SonataNotificationBundle(),
-            new Bangpound\PhirehoseBundle\BangpoundPhirehoseBundle(),
-            new JMS\SerializerBundle\JMSSerializerBundle(),
-            new Sonata\BlockBundle\SonataBlockBundle(),
-            new Sonata\jQueryBundle\SonatajQueryBundle(),
-            new Sonata\AdminBundle\SonataAdminBundle(),
-            new Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle(),
-            new FOS\UserBundle\FOSUserBundle(),
-            new Sonata\UserBundle\SonataUserBundle('FOSUserBundle'),
-            new Application\Sonata\UserBundle\ApplicationSonataUserBundle(),
-            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
-            new Bangpound\Bundle\TwitterStreamingBundle\BangpoundTwitterStreamingBundle(),
-            new Doctrine\Bundle\CouchDBBundle\DoctrineCouchDBBundle(),
-            new Liip\MonitorBundle\LiipMonitorBundle(),
+            new Application\AssetsBundle\ApplicationAssetsBundle(),
+            new Application\UserBundle\ApplicationUserBundle(),
             new Bangpound\Atom\DataBundle\BangpoundAtomDataBundle(),
-            new Bangpound\Bundle\ElasticsearchBundle\BangpoundElasticsearchBundle(),
-            new Sputnik\Bundle\PubsubBundle\SputnikPubsubBundle(),
-            new Bangpound\Bundle\PubsubBundle\BangpoundPubsubBundle(),
+            new Bangpound\Bundle\AngularJsBundle\BangpoundAngularJsBundle(),
             new Bangpound\Bundle\CastleBundle\BangpoundCastleBundle(),
+            new Bangpound\Bundle\CastleSearchBundle\BangpoundCastleSearchBundle(),
+            new Bangpound\Bundle\GuzzleProxyBundle\BangpoundGuzzleProxyBundle(),
+            new Bangpound\Bundle\PubsubBundle\BangpoundPubsubBundle(),
+            new Bangpound\Bundle\TwitterStreamingBundle\BangpoundTwitterStreamingBundle(),
+            new Bangpound\PhirehoseBundle\BangpoundPhirehoseBundle(),
+            new Caxy\Bundle\ElasticsearchBundle\CaxyElasticsearchBundle(),
+            new Doctrine\Bundle\CouchDBBundle\DoctrineCouchDBBundle(),
+            new Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            new FOS\RestBundle\FOSRestBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
+            new JavierEguiluz\Bundle\EasyAdminBundle\EasyAdminBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Liip\MonitorBundle\LiipMonitorBundle(),
+            new Nelmio\CorsBundle\NelmioCorsBundle(),
+            new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
+            new Sp\BowerBundle\SpBowerBundle(),
+            new Sputnik\Bundle\PubsubBundle\SputnikPubsubBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
@@ -43,10 +46,7 @@ class AppKernel extends Kernel
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
-            $bundles[] = new Elao\WebProfilerExtraBundle\WebProfilerExtraBundle();
-            $bundles[] = new CoreSphere\ConsoleBundle\CoreSphereConsoleBundle();
-            $bundles[] = new RaulFraile\Bundle\LadybugBundle\RaulFraileLadybugBundle();
-            $bundles[] = new Jns\Bundle\XhprofBundle\JnsXhprofBundle();
+            $bundles[] = new Bangpound\Bundle\InvokerBundle\BangpoundInvokerBundle();
         }
 
         return $bundles;

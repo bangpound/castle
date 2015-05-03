@@ -29,6 +29,8 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    globals:
+        castle_type_names: %bangpound_castle.types.lower%
 
 # Assetic Configuration
 assetic:
@@ -63,17 +65,12 @@ doctrine:
             Point:      CrEOF\Spatial\DBAL\Types\Geometry\PointType
             Polygon:    CrEOF\Spatial\DBAL\Types\Geometry\PolygonType
             LineString: CrEOF\Spatial\DBAL\Types\Geometry\LineStringType
-        mapping_types:
-            enum:                 string
-            polygon: Polygon
-            point: Point
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
         mappings:
-            ApplicationSonataUserBundle: ~
-            SonataUserBundle: ~
+            ApplicationUserBundle: ~
 
 
 # Swiftmailer Configuration
@@ -84,56 +81,50 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
-sonata_notification:
-    backend: sonata.notification.backend.rabbitmq
-    queues:
-        - { queue: twitter_stream, recover: true, routing_key: twitter_data.tweet }
-        - { queue: pubsub, recover: true, routing_key: pubsub_notification }
-        - { queue: catchall, default: true }
-    backends:
-        rabbitmq:
-            exchange: amq.direct
-            connection:
-                host:     %rabbitmq_host%
-                user:     %rabbitmq_user%
-                pass:     %rabbitmq_pass%
-                port:     %rabbitmq_port%
-                vhost:    %rabbitmq_vhost%
+old_sound_rabbit_mq:
+    enable_collector: true
+    connections:
+        default:
+            host:     %rabbitmq_host%
+            user:     %rabbitmq_user%
+            password: %rabbitmq_pass%
+            port:     %rabbitmq_port%
+            vhost:    %rabbitmq_vhost%
+    producers:
+        twitter:
+            connection:       default
+            exchange_options: { name: 'twitter', type: direct }
+            queue_options:    { name: 'twitter_stream', routing_keys: [ 'twitter_data.tweet' ] }
+        pubsub:
+            connection:       default
+            exchange_options: { name: 'pubsub', type: direct }
+            queue_options:    { name: 'pubsub', routing_keys: [ 'pubsub_notification' ] }
+    consumers:
+        twitter:
+            connection:       default
+            exchange_options: { name: 'twitter', type: direct }
+            queue_options:    { name: 'twitter_stream', routing_keys: [ 'twitter_data.tweet' ] }
+            callback:         bangpound_twitter_streaming.consumer.notification
+        pubsub:
+            connection:       default
+            exchange_options: { name: 'pubsub', type: direct }
+            queue_options:    { name: 'pubsub', routing_keys: [ 'pubsub_notification' ] }
+            callback:         rshief_bundle.consumer.notification
 
-sonata_block:
-    default_contexts: [cms]
-    blocks:
-        sonata.admin.block.admin_list:
-            contexts:   [admin]
-
-        sonata.block.service.text:
-        sonata.block.service.rss:
-
-sonata_doctrine_orm_admin:
-    # default value is null, so doctrine uses the value defined in the configuration
-    entity_manager: ~
-
-sonata_admin:
-    title:      kal3a
-    title_logo: /images/logo_title.png
-    dashboard:
-        blocks:
-            # display a dashboard block
-            - { position: left, type: sonata.admin.block.admin_list }
-#            - { position: right, type: sonata.admin_doctrine_orm.block.audit }
-            - { position: center, type: sonata.block.service.text, settings: { content: "<h2>Welcome!</h2> You can customize this dashboard by editing the sonata_admin.yml file. The current dashboard presents the recent items from the NewsBundle and a timeline with the latest action"} }
-            - { position: right, type: sonata.block.service.text, settings: { content: "<h2>Welcome!</h2> You can customize this dashboard by editing the sonata_admin.yml file. The current dashboard presents the recent items from the NewsBundle and a timeline with the latest action"} }
+easy_admin:
+    site_name: Castle
+    entities:
+        - Bangpound\Bundle\TwitterStreamingBundle\Entity\Follow
+        - Bangpound\Bundle\TwitterStreamingBundle\Entity\Location
+        - Bangpound\Bundle\TwitterStreamingBundle\Entity\Track
+        - Sputnik\Bundle\PubsubBundle\Entity\Topic
 
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
-    user_class: Application\Sonata\UserBundle\Entity\User
+    user_class: Application\UserBundle\Entity\User
     group:
-        group_class: Application\Sonata\UserBundle\Entity\Group
-
-sonata_user:
-    security_acl: true
-    manager_type: orm # can be orm or mongodb
+        group_class: Application\UserBundle\Entity\Group
 
 sensio_framework_extra:
     router:  { annotations: true }
@@ -153,14 +144,72 @@ doctrine_couch_db:
 # Liip monitor
 liip_monitor:
     checks:
-        php_extensions: [ intl, mcrypt, twig, curl ]
-#        process_active: "sonata:notification:start --type=pubsub_notification"
-#        process_active: "sonata:notification:start --type=twitter_data.tweet"
+        php_extensions: [ intl, mcrypt, curl ]
         writable_directory:
             - %kernel.cache_dir%
             - %kernel.logs_dir%
         doctrine_dbal:            default
-        deps_entries:             ~
-        symfony_version_check:    ~
+        symfony_version:          ~
         security_advisory:
             lock_file:            %kernel.root_dir%/../composer.lock
+        http_service:
+            couchdb:
+                host:                 localhost
+                port:                 5984
+                path:                 /
+            elasticsearch:
+                host:                 localhost
+                port:                 9200
+                path:                 /
+        rabbit_mq:
+            default:
+                host:                 localhost
+                port:                 5672
+                user:                 guest
+                password:             guest
+                vhost:                /
+
+bangpound_guzzle_proxy:
+
+caxy_elasticsearch:
+    client:
+        default:
+            hosts: [ "localhost:9200" ]
+
+fos_rest:
+    param_fetcher_listener: true
+    body_listener: true
+    format_listener: true
+    view:
+        view_response_listener: 'force'
+        jsonp_handler: ~
+
+sp_bower:
+    bundles:
+        BangpoundAngularJsBundle: ~
+        BangpoundCastleSearchBundle: ~
+        ApplicationAssetsBundle: ~
+    assetic:
+        enabled:              true
+        nest_dependencies: false
+
+nelmio_cors:
+    defaults:
+        allow_credentials: false
+        allow_origin: []
+        allow_headers: []
+        allow_methods: []
+        expose_headers: []
+        max_age: 0
+        hosts: []
+    paths:
+        '^/tagstatistic/summary.json':
+            allow_origin: ['*']
+            allow_methods: ['GET']
+            max_age: 3600
+
+doctrine_cache:
+    providers:
+        statistics:
+            type: file_system
+            namespace: statistics
