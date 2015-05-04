@@ -31,3 +31,6 @@ sputnik_pubsub_callback:
 
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+castle_search:
+    resource: "@BangpoundCastleSearchBundle/Resources/config/routing.yml"
